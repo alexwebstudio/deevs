@@ -9,6 +9,7 @@ import { AppProviders } from "@/components/providers/AppProviders";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
+import { LeadModalProvider } from "@/components/providers/LeadModalProvider";
 import { alternates } from "@/lib/seo";
 import "../globals.css";
 
@@ -62,10 +63,12 @@ export default async function LocaleLayout({ children, params }: Props) {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProviders>
-            <Preloader />
-            <Header />
-            {children}
-            <Footer />
+            <LeadModalProvider>
+              <Preloader />
+              <Header />
+              {children}
+              <Footer />
+            </LeadModalProvider>
           </AppProviders>
         </NextIntlClientProvider>
       </body>

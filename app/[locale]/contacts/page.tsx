@@ -1,10 +1,44 @@
 import type { Metadata } from "next";
-import { setRequestLocale,getTranslations } from "next-intl/server";
+import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
-import { Panel,SectionHead } from "@/components/ui/Section";
+import { Panel } from "@/components/ui/Section";
 import { LeadForm } from "@/components/home/LeadForm";
 import { site } from "@/config/site";
 import { alternates } from "@/lib/seo";
-type Props={params:Promise<{locale:string}>};
-export async function generateMetadata({params}:Props):Promise<Metadata>{const {locale}=await params;const t=await getTranslations({locale,namespace:"meta.contacts"});return{title:t("title"),description:t("description"),alternates:alternates(locale,"/contacts")}}
-export default async function ContactsPage({params}:Props){const {locale}=await params;setRequestLocale(locale);return <PageShell crumbs={[{label:"Контакты"}]} label="ТОО Deevs · Астана" title="Обсудим задачу вашего объекта" lead="Свяжитесь с нами по вопросам строительства, реконструкции и инженерных работ."><Panel className="grid gap-4 p-3 md:p-4 lg:grid-cols-[.8fr_1.2fr]"><div className="rounded-[var(--radius-card)] bg-dark p-6 text-white md:p-8"><SectionHead dark label="Контакты" title="ТОО Deevs"/><div className="mt-8 space-y-6 text-sm"><p><span className="block text-white/50">Телефон</span><a className="mt-1 inline-block text-lg" href={site.phoneHref}>{site.phone}</a></p><p><span className="block text-white/50">WhatsApp</span><a className="mt-1 inline-block" href={site.whatsapp} target="_blank" rel="noreferrer">Написать в WhatsApp ↗</a></p><p><span className="block text-white/50">Юридический адрес</span><span className="mt-1 inline-block">Республика Казахстан, г. Астана, ул. Керей, Жанибек хандар, 44/1, кв. 37</span></p><p><span className="block text-white/50">Производственная база</span><span className="mt-1 inline-block">г. Астана, район Байконыр, ул. 85, 7/1</span></p><p><span className="block text-white/50">БИН</span><span className="mt-1 inline-block">031240013006</span></p></div></div><div className="p-1 md:p-3"><LeadForm/></div></Panel></PageShell>}
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "meta.contacts" });
+  return { title: t("title"), description: t("description"), alternates: alternates(locale, "/contacts") };
+}
+
+export default async function ContactsPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  return (
+    <PageShell crumbs={[{ label: "Контакты" }]} label="ТОО Deevs · Астана" title="Контакты компании" lead="Телефон, WhatsApp, Instagram, юридический адрес и производственная база ТОО Deevs.">
+      <Panel className="grid gap-4 p-3 md:p-4 lg:grid-cols-[.9fr_1.1fr]">
+        <div className="rounded-[var(--radius-card)] bg-dark p-6 text-white md:p-8">
+          <p className="text-[11px] font-medium tracking-[.14em] text-white/50 uppercase">Связаться с нами</p>
+          <h2 className="mt-4 text-[clamp(28px,4vw,42px)] leading-tight font-medium">ТОО Deevs</h2>
+          <div className="mt-7 space-y-5 text-[14px] leading-relaxed">
+            <p><span className="block text-white/50">Телефон</span><a className="mt-1 inline-block text-[20px]" href={site.phoneHref}>{site.phone}</a></p>
+            <p><span className="block text-white/50">WhatsApp</span><a className="mt-1 inline-flex items-center gap-2" href={site.whatsapp} target="_blank" rel="noreferrer">Написать в WhatsApp ↗</a></p>
+            <p><span className="block text-white/50">Instagram</span><a className="mt-1 inline-flex items-center gap-2" href="https://www.instagram.com/too_deevs/" target="_blank" rel="noreferrer">@too_deevs ↗</a></p>
+            <p><span className="block text-white/50">Юридический адрес</span><span className="mt-1 inline-block">Республика Казахстан, г. Астана, ул. Керей, Жанибек хандар, 44/1, кв. 37</span><br/><a className="mt-1 inline-block text-white/70 underline underline-offset-4" href="https://2gis.kz/astana/search/ул.%20Керей%2C%20Жанибек%20хандар%2044%2F1" target="_blank" rel="noreferrer">Открыть адрес на карте ↗</a></p>
+            <p><span className="block text-white/50">Производственная база</span><span className="mt-1 inline-block">г. Астана, район Байконыр, ул. 85, 7/1</span><br/><a className="mt-1 inline-block text-white/70 underline underline-offset-4" href="https://2gis.kz/astana/search/Астана%20район%20Байконыр%20улица%2085%207%2F1" target="_blank" rel="noreferrer">Открыть базу на карте ↗</a></p>
+            <p><span className="block text-white/50">БИН</span><span className="mt-1 inline-block">031240013006</span></p>
+          </div>
+          <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 border-t border-white/15 pt-5 text-[13px]">
+            <a href="/deevs-presentation.pdf" target="_blank" rel="noreferrer" className="underline underline-offset-4">Смотреть презентацию PDF ↗</a>
+            <a href="/documents/license-overview.png" target="_blank" rel="noreferrer" className="underline underline-offset-4">Лицензия ↗</a>
+            <a href="/documents/iso-certificates.png" target="_blank" rel="noreferrer" className="underline underline-offset-4">Сертификаты ISO ↗</a>
+          </div>
+        </div>
+        <div className="p-1 md:p-3"><LeadForm /></div>
+      </Panel>
+    </PageShell>
+  );
+}

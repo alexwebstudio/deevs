@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { finalCtaVisual } from "@/data/home";
 import { Panel, SectionHead } from "@/components/ui/Section";
-import { LeadForm } from "@/components/home/LeadForm";
+import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 
 export function FinalCta() {
   const t = useTranslations("home.finalCta");
@@ -11,11 +9,10 @@ export function FinalCta() {
       <SectionHead dark label={t("label")} title={t("title")} lead={t("lead")} />
       <p className="text-[14px] text-white/55">{t("note")}</p>
     </div>
-    <div className="grid gap-3">
-      <div className="relative min-h-[260px] overflow-hidden rounded-[calc(var(--radius-section)-10px)]">
-        {finalCtaVisual.kind === "photo" && <Image src={finalCtaVisual.src} alt="" fill sizes="(max-width: 1024px) 100vw, 48vw" className="object-cover grayscale" />}
-      </div>
-      <LeadForm />
+    <div className="flex flex-col justify-center rounded-[var(--radius-card)] bg-white p-7 text-ink md:p-10">
+      <h3 className="text-[clamp(24px,3vw,38px)] leading-tight font-medium">Нужно построить или реконструировать объект?</h3>
+      <p className="mt-4 max-w-lg text-[15px] leading-relaxed text-muted">Опишите площадку, требуемые работы и сроки. Ответим по телефону или в Telegram.</p>
+      <LeadModalButton className="mt-7 inline-flex h-12 w-fit items-center justify-center whitespace-nowrap rounded-full bg-dark px-6 text-[13px] font-semibold text-white transition-colors hover:bg-wood">Оставить заявку <span className="ml-3" aria-hidden>↗</span></LeadModalButton>
     </div>
   </Panel>;
 }

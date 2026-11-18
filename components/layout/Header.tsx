@@ -6,6 +6,7 @@ import { Link, usePathname, useRouter } from "@/i18n/navigation";
 import { routing, htmlLang } from "@/i18n/routing";
 import { nav } from "@/config/site";
 import { Wordmark } from "./Wordmark";
+import { useOpenLeadModal } from "@/components/providers/LeadModalProvider";
 
 export function Header() {
   const t = useTranslations();
@@ -13,6 +14,7 @@ export function Header() {
   const pathname = usePathname();
   const router = useRouter();
   const [, startTransition] = useTransition();
+  const openLeadModal = useOpenLeadModal();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -45,7 +47,7 @@ export function Header() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[var(--gutter)] pt-[calc(var(--gutter)+10px)]">
       <div
-        className={`pointer-events-auto mx-auto flex h-14 items-center justify-between gap-4 rounded-full pr-2 pl-5 text-white transition-[max-width,background-color,border-color,box-shadow] duration-[var(--dur-expand)] ${
+        className={`pointer-events-auto mx-auto flex h-14 items-center justify-between gap-2 rounded-full pr-2 pl-5 text-white transition-[max-width,background-color,border-color,box-shadow] duration-[var(--dur-expand)] sm:gap-4 ${
           scrolled ? "glass-dark max-w-[1180px]" : "max-w-full border border-transparent"
         }`}
       >
@@ -70,7 +72,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-3">
           <div className={`hidden items-center gap-1 text-[11px] font-semibold ${multiLang ? "sm:flex" : ""}`} role="group" aria-label={t("header.language")}>
             {routing.locales.map((l) => (
               <button
@@ -87,12 +89,13 @@ export function Header() {
               </button>
             ))}
           </div>
-          <Link
-            href="/contacts"
-            className="h-10 rounded-full bg-white px-4 text-[12px] font-semibold tracking-[0.04em] text-graphite uppercase transition-[transform,background-color] hover:scale-[1.03] hover:bg-surface sm:px-5"
+          <button
+            type="button"
+            onClick={openLeadModal}
+            className="inline-flex h-10 min-w-[132px] shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white px-3 text-[10px] font-semibold tracking-[0.02em] text-graphite uppercase transition-[transform,background-color] hover:scale-[1.03] hover:bg-surface sm:min-w-[164px] sm:px-5 sm:text-[12px] sm:tracking-[0.04em]"
           >
             {t("header.discuss")}
-          </Link>
+          </button>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}

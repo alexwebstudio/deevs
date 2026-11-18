@@ -5,12 +5,12 @@ import { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { BRAND } from "@/config/site";
 import { heroVisual } from "@/data/hero";
-import { Link } from "@/i18n/navigation";
 import { TextFlip } from "@/components/effects/TextFlip";
 import { BlurIn } from "@/components/effects/BlurIn";
 import { Magnetic } from "@/components/effects/Magnetic";
 import { Arrow } from "@/components/ui/PillButton";
 import { useApp } from "@/components/providers/AppProviders";
+import { useOpenLeadModal } from "@/components/providers/LeadModalProvider";
 import { useGsap, prefersReducedMotion } from "@/lib/gsap";
 import styles from "./Hero.module.css";
 
@@ -27,6 +27,7 @@ export function Hero() {
   const tc = useTranslations("common");
   const root = useRef<HTMLElement>(null);
   const { introDone } = useApp();
+  const openLeadModal = useOpenLeadModal();
   const words = t.raw("words") as string[];
 
   // Вход — после прелоадера: окна «вырастают» снизу вверх, фото внутри мягко уменьшается
@@ -129,19 +130,19 @@ export function Hero() {
           <div className={styles.actions}>
             <span data-hero-cta className={styles.ctaWrap}>
               <Magnetic className="max-md:w-full">
-                  <Link href="/contacts" className={`group ${styles.ctaPrimary}`}>
+                  <button type="button" onClick={openLeadModal} className={`group ${styles.ctaPrimary}`}>
                   <span>{t("ctaPrimary")}</span>
                   <span className={styles.ctaDot}>
                     <Arrow className="size-4 transition-transform duration-[var(--dur-expand)] group-hover:-rotate-45" />
                   </span>
-                  </Link>
+                  </button>
               </Magnetic>
             </span>
             <span data-hero-cta className={styles.ctaWrap}>
-              <Link href="/projects" className={`group ${styles.ctaSecondary}`}>
+              <a href="/deevs-presentation.pdf" target="_blank" rel="noreferrer" className={`group ${styles.ctaSecondary}`}>
                 <span>{t("ctaSecondary")}</span>
                 <Arrow className="size-4 transition-transform duration-[var(--dur-expand)] group-hover:translate-x-1.5" />
-              </Link>
+              </a>
             </span>
           </div>
         </div>

@@ -21,8 +21,6 @@ export const realizedVisuals: Visual[] = [
 /** реализованные объекты на главной: срок (дней) для бейджа — остальное в messages */
 export const realizedYears = ["2024–2025", "2025", "2023"];
 
-export const finalCtaVisual: Visual = { kind: "photo", src: "/images/projects/work-hangar.jpg", altKey: "home.finalCta.photoAlt", position: "50% 50%" };
-
 /** фон под стеклянными отзывами */
 export const reviewsBackground = "/images/projects/work-pump-station.jpg";
 

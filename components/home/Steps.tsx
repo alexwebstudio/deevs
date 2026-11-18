@@ -93,23 +93,13 @@ export function Steps() {
                       >
                         {s.n}
                       </span>
-                      <span className="flex-1">
-                        <span className="flex items-baseline justify-between gap-4">
-                          <span className={`text-[20px] font-medium tracking-[-0.01em] transition-colors duration-500 ${on ? "text-ink" : "text-ink/45 lg:text-ink/40"}`}>
-                            {s.title}
-                          </span>
-                          <span className="font-display text-[12px] text-wood">{s.term}</span>
-                        </span>
-                        <span
-                          className={`grid transition-[grid-template-rows,opacity] duration-[var(--dur-expand)]  max-lg:grid-rows-[1fr] max-lg:opacity-100 ${
-                            on ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
-                          }`}
-                        >
-                          <span className="overflow-hidden">
-                            <span className="block pt-2 text-[15px] leading-relaxed text-muted">{s.text}</span>
-                          </span>
-                        </span>
-                      </span>
+                      <div className="min-w-0 flex-1 text-left">
+                        <div className="flex items-baseline justify-between gap-3">
+                          <span className="block text-[18px] font-medium tracking-[-0.01em] text-ink">{s.title}</span>
+                          <span className="shrink-0 font-display text-[11px] text-wood">{s.term}</span>
+                        </div>
+                        <p className="mt-1 block text-[14px] leading-snug text-muted">{s.text}</p>
+                      </div>
                     </button>
                     {/* мобильная картинка шага */}
                     <div className="relative mt-3 mb-6 aspect-[4/3] overflow-hidden rounded-[var(--radius-photo)] lg:hidden">

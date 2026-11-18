@@ -59,6 +59,20 @@ html[lang="kk"]:not([data-fonts]) {
   color-scheme: light;
 }
 
+@keyframes leadFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes leadPop {
+  from { opacity: 0; transform: translateY(20px) scale(.975); filter: blur(5px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="animate-[lead"] { animation-duration: 1ms !important; }
+}
+
 html {
   background: var(--color-graphite);
   -webkit-font-smoothing: antialiased;

@@ -9,6 +9,7 @@ export const site = {
   whatsapp: "https://wa.me/77779933999",
   telegram: "",
   email: "",
+  developer: { name: "AlexWebStudio", url: "https://alexwebstudio.ru" },
 } as const;
 
 /** пункты меню: путь без локали + ключ в messages.nav */
