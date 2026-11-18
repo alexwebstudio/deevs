@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { setRequestLocale, getTranslations } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { Panel } from "@/components/ui/Section";
-import { LeadForm } from "@/components/home/LeadForm";
+import { ContactLocationMap } from "@/components/contacts/ContactLocationMap";
+import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 import { site } from "@/config/site";
 import { alternates } from "@/lib/seo";
 
@@ -27,17 +28,17 @@ export default async function ContactsPage({ params }: Props) {
             <p><span className="block text-white/50">Телефон</span><a className="mt-1 inline-block text-[20px]" href={site.phoneHref}>{site.phone}</a></p>
             <p><span className="block text-white/50">WhatsApp</span><a className="mt-1 inline-flex items-center gap-2" href={site.whatsapp} target="_blank" rel="noreferrer">Написать в WhatsApp ↗</a></p>
             <p><span className="block text-white/50">Instagram</span><a className="mt-1 inline-flex items-center gap-2" href="https://www.instagram.com/too_deevs/" target="_blank" rel="noreferrer">@too_deevs ↗</a></p>
-            <p><span className="block text-white/50">Юридический адрес</span><span className="mt-1 inline-block">Республика Казахстан, г. Астана, ул. Керей, Жанибек хандар, 44/1, кв. 37</span><br/><a className="mt-1 inline-block text-white/70 underline underline-offset-4" href="https://2gis.kz/astana/search/ул.%20Керей%2C%20Жанибек%20хандар%2044%2F1" target="_blank" rel="noreferrer">Открыть адрес на карте ↗</a></p>
-            <p><span className="block text-white/50">Производственная база</span><span className="mt-1 inline-block">г. Астана, район Байконыр, ул. 85, 7/1</span><br/><a className="mt-1 inline-block text-white/70 underline underline-offset-4" href="https://2gis.kz/astana/search/Астана%20район%20Байконыр%20улица%2085%207%2F1" target="_blank" rel="noreferrer">Открыть базу на карте ↗</a></p>
+            <p><span className="block text-white/50">Юридический адрес</span><span className="mt-1 inline-block">Республика Казахстан, г. Астана, ул. Керей, Жанибек хандар, 44/1, кв. 37</span><br/><a className="mt-1 inline-block text-white/70 underline underline-offset-4" href="https://2gis.kz/astana/inside/70030076513910385/firm/70000001112483051" target="_blank" rel="noreferrer">Открыть адрес на карте ↗</a></p>
             <p><span className="block text-white/50">БИН</span><span className="mt-1 inline-block">031240013006</span></p>
           </div>
+          <LeadModalButton className="mt-7 inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-white px-6 text-[13px] font-semibold text-ink transition-colors hover:bg-wood-light sm:w-fit">Оставить заявку <span aria-hidden>↗</span></LeadModalButton>
           <div className="mt-7 flex flex-wrap gap-x-5 gap-y-3 border-t border-white/15 pt-5 text-[13px]">
             <a href="/deevs-presentation.pdf" target="_blank" rel="noreferrer" className="underline underline-offset-4">Смотреть презентацию PDF ↗</a>
             <a href="/documents/license-overview.png" target="_blank" rel="noreferrer" className="underline underline-offset-4">Лицензия ↗</a>
             <a href="/documents/iso-certificates.png" target="_blank" rel="noreferrer" className="underline underline-offset-4">Сертификаты ISO ↗</a>
           </div>
         </div>
-        <div className="p-1 md:p-3"><LeadForm /></div>
+        <div className="min-w-0 p-1 md:p-3"><ContactLocationMap /></div>
       </Panel>
     </PageShell>
   );

@@ -10,7 +10,7 @@ export function Footer() {
       <div className="rounded-[var(--radius-section)] bg-graphite px-6 pt-14 pb-6 text-white md:px-12">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <Link href="/" className="text-[22px] transition-opacity hover:opacity-80">
-            <Wordmark className="rounded-sm bg-white p-1" />
+            <Wordmark variant="white" />
           </Link>
           <nav aria-label={t("footer.menuAria")}>
             <ul className="grid grid-cols-2 gap-x-10 gap-y-2 text-[15px] text-white/70 sm:grid-cols-3">
@@ -28,7 +28,6 @@ export function Footer() {
               {site.phone}
             </a>
             <p className="text-white/55">Астана, ул. Керей, Жәнібек хандар, 44/1</p>
-            <p className="text-white/55">База: р-н Байконыр, ул. 85, 7/1</p>
             <p className="text-white/55">БИН 031240013006</p>
           </div>
         </div>

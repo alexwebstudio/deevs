@@ -13,7 +13,7 @@ const EXPO_IN_OUT = "cubic-bezier(0.87, 0, 0.13, 1)";
 const QUINT_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 /**
- * Прелоадер (~3s): на графите тонкими линиями прорисовывается архитектурная форма,
+ * Прелоадер (~4s): на графите тонкими линиями прорисовывается архитектурная форма,
  * над ней мягко поднимается DEEVS, пауза — и экран уходит clip-path прямо в анимацию hero.
  * Повторный визит в сессии — ~0.8s. При переходах между страницами и смене языка не показывается.
  * Работает на Web Animations API — стартует сразу, без ожидания библиотек.
@@ -84,20 +84,20 @@ export function Preloader() {
 
     if (seen) {
       // Повторный визит: сохраняем тот же ритм, суммарно около 3 секунд.
-      lines.forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 380, delay: i * 6, easing: POWER2_IN_OUT }));
-      letters.forEach((_, i) => letterIn(i, 60 + i * 20, 380));
-      wait(2200)
+      lines.forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 720, delay: i * 10, easing: POWER2_IN_OUT }));
+      letters.forEach((_, i) => letterIn(i, 100 + i * 28, 680));
+      wait(2600)
         .then(() => heroReady)
         .then(() => exit(800));
     } else {
-      // первый визит — ≈3s: каркас группами, как на стройке
+      // Первый визит: медленнее прорисовываем каркас последовательными группами.
       for (let g = 0; g <= 5; g++) {
         lines
           .filter((l) => l.dataset.group === String(g))
-          .forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 700, delay: 120 + g * 240 + i * 30, easing: POWER2_IN_OUT }));
+          .forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1150, delay: 180 + g * 300 + i * 40, easing: POWER2_IN_OUT }));
       }
-      letters.forEach((_, i) => letterIn(i, 1100 + i * 60, 900));
-      wait(2200)
+      letters.forEach((_, i) => letterIn(i, 1650 + i * 65, 900));
+      wait(2700)
         .then(() => heroReady)
         .then(() => exit(900));
     }

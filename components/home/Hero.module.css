@@ -214,10 +214,13 @@
 /* ---------- Mobile: 2 окна, логотип на всю ширину, кнопки в столбик, слова строкой ---------- */
 @media (max-width: 767px) {
   .hero {
-    min-height: 660px;
+    /* На телефоне раскладываем hero по вертикали: фото, направления, затем текст и CTA. */
+    height: max(100svh, 820px);
+    min-height: 820px;
   }
   .stage {
     --n: 2;
+    inset: 12px 12px 20px;
   }
   .desktopOnly {
     display: none;
@@ -226,21 +229,33 @@
     display: flex;
   }
   .win[data-win="0"] {
-    --t: 9 !important;
-    --b: 55 !important;
+    --t: 3 !important;
+    --b: 37 !important;
+  }
+  .win[data-win="0"] .photoWrap {
+    top: -30cqh;
   }
   .win[data-win="1"] {
-    --t: 13 !important;
-    --b: 47 !important;
+    --t: 7 !important;
+    --b: 33 !important;
+  }
+  .win[data-win="1"] .photoWrap {
+    top: -27cqh;
   }
   .copy {
-    top: auto;
-    bottom: 40px;
+    top: 53cqh;
+    bottom: auto;
     width: 100cqw;
+  }
+  .subtitle {
+    max-width: 37em;
+    font-size: 14px;
+    line-height: 1.45;
   }
   .actions {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
+    margin-top: 16px;
   }
   .ctaWrap,
   .ctaPrimary,
@@ -248,18 +263,46 @@
     width: 100%;
   }
   .ctaPrimary {
-    justify-content: space-between;
+    position: relative;
+    justify-content: center;
+  }
+  .ctaPrimary > span:first-child {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .ctaDot {
+    margin-left: auto;
   }
   .words {
-    top: auto;
-    bottom: 0;
+    top: 44cqh;
+    bottom: auto;
     left: 0;
     right: 0;
     width: auto;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 6px 12px;
-    font-size: clamp(12px, 3.5vw, 16px);
+    align-items: baseline;
+    gap: 5px 10px;
+    font-size: clamp(11px, 3.2vw, 14px);
+  }
+  .ctaPrimary,
+  .ctaSecondary {
+    height: 48px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero {
+    height: max(100svh, 780px);
+    min-height: 780px;
+  }
+  .copy {
+    top: 51cqh;
+  }
+  .words {
+    top: 42cqh;
   }
 }
