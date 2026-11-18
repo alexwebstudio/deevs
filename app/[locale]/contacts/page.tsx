@@ -1,0 +1,10 @@
+import type { Metadata } from "next";
+import { setRequestLocale,getTranslations } from "next-intl/server";
+import { PageShell } from "@/components/layout/PageShell";
+import { Panel,SectionHead } from "@/components/ui/Section";
+import { LeadForm } from "@/components/home/LeadForm";
+import { site } from "@/config/site";
+import { alternates } from "@/lib/seo";
+type Props={params:Promise<{locale:string}>};
+export async function generateMetadata({params}:Props):Promise<Metadata>{const {locale}=await params;const t=await getTranslations({locale,namespace:"meta.contacts"});return{title:t("title"),description:t("description"),alternates:alternates(locale,"/contacts")}}
+export default async function ContactsPage({params}:Props){const {locale}=await params;setRequestLocale(locale);return <PageShell crumbs={[{label:"Контакты"}]} label="ТОО Deevs · Астана" title="Обсудим задачу вашего объекта" lead="Свяжитесь с нами по вопросам строительства, реконструкции и инженерных работ."><Panel className="grid gap-4 p-3 md:p-4 lg:grid-cols-[.8fr_1.2fr]"><div className="rounded-[var(--radius-card)] bg-dark p-6 text-white md:p-8"><SectionHead dark label="Контакты" title="ТОО Deevs"/><div className="mt-8 space-y-6 text-sm"><p><span className="block text-white/50">Телефон</span><a className="mt-1 inline-block text-lg" href={site.phoneHref}>{site.phone}</a></p><p><span className="block text-white/50">WhatsApp</span><a className="mt-1 inline-block" href={site.whatsapp} target="_blank" rel="noreferrer">Написать в WhatsApp ↗</a></p><p><span className="block text-white/50">Юридический адрес</span><span className="mt-1 inline-block">Республика Казахстан, г. Астана, ул. Керей, Жанибек хандар, 44/1, кв. 37</span></p><p><span className="block text-white/50">Производственная база</span><span className="mt-1 inline-block">г. Астана, район Байконыр, ул. 85, 7/1</span></p><p><span className="block text-white/50">БИН</span><span className="mt-1 inline-block">031240013006</span></p></div></div><div className="p-1 md:p-3"><LeadForm/></div></Panel></PageShell>}

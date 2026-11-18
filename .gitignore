@@ -1,0 +1,16 @@
+node_modules
+.next
+out
+*.tsbuildinfo
+.env*.local
+.vercel
+.next-build
+.next-build-*/
+materials/
+tmp/
+
+.claude/
+references/
+PROMPT_NORDHAUS.md
+TZ_NORDHAUS.md
+IMAGES_NEEDED.md
