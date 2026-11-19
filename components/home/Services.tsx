@@ -12,10 +12,10 @@ export function Services() {
       <section className="px-2 md:px-8" aria-label={t("title")}>
         <SectionHead label={t("label")} title={t("title")} lead={t("lead")} />
         <Reveal className="mt-12 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((it, i) => <li key={it.title} className={`relative flex min-h-[250px] flex-col overflow-hidden rounded-[var(--radius-card)] p-6 md:p-7 ${i === items.length - 1 ? "bg-dark text-white" : "border border-ink/10 bg-white"}`}>
-            <span className={`font-brand text-[11px] tracking-[0.14em] ${i === items.length - 1 ? "text-white/45" : "text-muted"}`}>0{i + 1}</span>
+          {items.map((it, i) => <li key={it.title} className={`relative flex min-h-[250px] flex-col overflow-hidden rounded-[var(--radius-card)] p-6 transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-ui)] hover:-translate-y-1 hover:shadow-lg md:p-7 ${i % 2 === 0 ? "bg-dark text-white" : "border border-ink/10 bg-white"}`}>
+            <span className={`font-brand text-[11px] tracking-[0.14em] ${i % 2 === 0 ? "text-white/45" : "text-muted"}`}>0{i + 1}</span>
             <h3 className="mt-4 text-[21px] font-medium tracking-[-0.01em]">{it.title}</h3>
-            <p className={`mt-3 text-[15px] leading-relaxed ${i === items.length - 1 ? "text-white/65" : "text-muted"}`}>{it.text}</p>
+            <p className={`mt-3 text-[15px] leading-relaxed ${i % 2 === 0 ? "text-white/65" : "text-muted"}`}>{it.text}</p>
           </li>)}
         </Reveal>
         <div className="mt-3 flex flex-col gap-4 rounded-[var(--radius-card)] border border-ink/10 p-6 sm:flex-row sm:items-center sm:justify-between">

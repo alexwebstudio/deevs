@@ -60,7 +60,11 @@ export function Hero() {
       h1.style.fontSize = "100px";
       const natural = h1.scrollWidth;
       const target = Math.min(copy.clientWidth, window.innerWidth < 768 ? window.innerWidth - 40 : copy.clientWidth);
-      const responsiveCap = window.innerWidth < 768 ? window.innerWidth * 0.27 : window.innerWidth < 1200 ? window.innerWidth * 0.18 : Infinity;
+      const responsiveCap = window.innerWidth < 768
+        ? window.innerWidth * 0.27
+        : window.innerWidth < 1200
+          ? window.innerWidth * 0.18
+          : window.innerHeight * 0.24;
       if (natural > 0 && target > 0) h1.style.fontSize = `${Math.min((100 * target * 0.96) / natural, responsiveCap)}px`;
     };
     fit();

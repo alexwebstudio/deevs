@@ -1,32 +1,25 @@
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import { FRAME } from "@/components/ui/houseFrame";
+import Link from "next/link";
+import type { Metadata } from "next";
 
-/** 404: участок размечен, но фундамент ещё не залит — только разметка будущего каркаса. */
+export const metadata: Metadata = {
+  title: "404 — ТОО Deevs",
+  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+};
+
+/** Локализованная 404 страница в графитовом стиле сайта. */
 export default function NotFound() {
-  const t = useTranslations("notFound");
   return (
-    <main className="relative grid min-h-[100svh] place-items-center overflow-hidden bg-graphite px-[var(--gutter)] pt-28 pb-16 text-white">
-      <div className="relative flex max-w-[760px] flex-col items-center text-center">
-        <svg viewBox="0 30 480 270" className="w-[min(86vw,460px)]" fill="none" aria-hidden>
-          {/* призрак будущего каркаса */}
-          {FRAME.map((p, i) => (
-            <path key={i} d={p.d} stroke="#fff" strokeOpacity=".1" strokeWidth="1.2" strokeDasharray="4 6" />
-          ))}
-          {/* разметка участка — всё, что есть */}
-          <path d="M40 280H440" stroke="#89939e" strokeWidth="1.6" strokeLinecap="round" />
-        </svg>
-        <p className="font-brand mt-6 text-[clamp(72px,14vw,168px)] leading-none font-semibold tracking-[-0.06em]">
-          4<span className="text-wood">0</span>4
-        </p>
-        <h1 className="mt-4 text-[clamp(26px,3.4vw,44px)] leading-tight font-medium tracking-[-0.03em]">{t("title")}</h1>
-        <p className="mt-4 max-w-[30em] text-[17px] text-white/60">{t("text")}</p>
+    <main data-not-found className="grid min-h-[100svh] place-items-center bg-graphite px-[var(--gutter)] py-16 text-white">
+      <div className="flex max-w-[680px] flex-col items-center text-center">
+        <p aria-hidden className="font-brand text-[clamp(80px,14vw,144px)] leading-none font-semibold tracking-[-0.07em] text-white/90">404</p>
+        <h1 className="mt-5 text-[clamp(32px,5vw,64px)] leading-tight font-medium tracking-[-0.04em]">Здесь бетон ещё не залит</h1>
+        <p className="mt-5 max-w-[34em] text-[16px] leading-relaxed text-white/60 sm:text-[18px]">Похоже, такой страницы пока нет. Вернитесь на главную или посмотрите реализованные объекты Deevs.</p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link href="/" className="inline-flex h-12 items-center rounded-full bg-white px-6 text-[15px] font-medium text-ink transition-colors hover:bg-surface">
-            {t("home")}
+            На главную
           </Link>
-          <Link href="/services" className="inline-flex h-12 items-center rounded-full border border-white/25 px-6 text-[15px] font-medium transition-colors hover:border-white/60">
-            {t("catalog")}
+          <Link href="/projects" className="inline-flex h-12 items-center rounded-full border border-white/25 px-6 text-[15px] font-medium transition-colors hover:border-white/60">
+            Все объекты
           </Link>
         </div>
       </div>

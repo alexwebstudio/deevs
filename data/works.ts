@@ -44,10 +44,18 @@ export const works: Work[] = [
   project({ slug: "checkpoint-garage", title: "Изготовление и монтаж модульного КПП с гаражом для служебного транспорта", titleKz: "Қызметтік көлікке арналған гаражы бар модульдік бақылау-өткізу пунктін дайындау және монтаждау", category: "construction" }, 2),
   project({ slug: "heat-point-parus", year: "2026", title: "Реконструкция зданий ЦТП «Парус», магистральной и внутриквартальной тепловой сети", titleKz: "«Парус» орталық жылу пунктінің ғимараттарын, магистральдық және орамішілік жылу желілерін қайта жаңарту", category: "engineering" }, 6),
   project({ slug: "ptec2-guard-posts", year: "2026", title: "Замена существующих постов охраны на блочно-модульные на ПТЭЦ-2", titleKz: "ПТЭЦ-2 нысанындағы қолданыстағы күзет бекеттерін блокты-модульдік бекеттерге ауыстыру", category: "construction", client: "АО «СЕВКАЗЭНЕРГО»" }, 4),
-];
+].sort((a, b) => {
+  // Preserve slide order for undated projects; sort only where years are known.
+  const latestYear = (work: Work) => Number(work.year?.match(/\d{4}/g)?.at(-1) ?? 0);
+  return latestYear(b) - latestYear(a);
+});
 
 export const featuredWorks = ["modular-hostel-220", "floating-pump-station", "heat-point-parus", "ptec2-guard-posts"]
   .map((slug) => works.find((work) => work.slug === slug)!)
-  .filter(Boolean);
+  .filter(Boolean)
+  .sort((a, b) => {
+    const latestYear = (work: Work) => Number(work.year?.match(/\d{4}/g)?.at(-1) ?? 0);
+    return latestYear(b) - latestYear(a);
+  });
 export const localizedWorkTitle = (work: Work, locale: string) => locale === "kz" ? work.titleKz : work.title;
 export const localizedWorkLocation = (work: Work, locale: string) => locale === "kz" ? work.locationKz : work.location;

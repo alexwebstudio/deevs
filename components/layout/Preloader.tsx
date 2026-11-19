@@ -43,8 +43,10 @@ export function Preloader() {
     if (prefersReducedMotion()) {
       lines.forEach((l) => (l.style.strokeDashoffset = "0"));
       letters.forEach((l) => (l.style.opacity = "1"));
-      timers.push(window.setTimeout(finishIntro, 300));
-      A(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 300 }).onfinish = done;
+      // Keep the same overall timing on phones with Reduce Motion enabled;
+      // skip the drawing movement, but don't flash the preloader away.
+      timers.push(window.setTimeout(finishIntro, 2200));
+      A(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 800, delay: 2200 }).onfinish = done;
       return () => timers.forEach(clearTimeout);
     }
 
@@ -97,7 +99,7 @@ export function Preloader() {
     >
       <div data-stage className="flex flex-col items-center">
         {/* Буквы DEEVS поднимаются из размытия по исходной анимации */}
-        <p className="font-brand mb-8 text-[clamp(28px,4.4vw,56px)] leading-none tracking-[0.06em] uppercase" aria-hidden>
+        <p className="deevs-wordmark mb-8 text-[clamp(28px,4.4vw,56px)] leading-none tracking-[0.06em] uppercase" aria-hidden>
           {Array.from(word).map((ch, i) => (
             <span key={i} data-letter className="inline-block font-bold opacity-0">
               {ch}

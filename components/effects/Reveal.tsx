@@ -3,7 +3,7 @@
 /**
  * Каскадное появление карточек: fade + подъём + blur → 0, stagger 0.1s, один раз при входе в экран.
  * Скрытое состояние ставится из JS до отрисовки; анимирует GSAP (expo.out).
- * Страховка: если GSAP не загрузился за 3s, элементы просто становятся видимыми.
+ * Страховка: если триггер прокрутки не сработал после перезагрузки, элементы всё равно показываются.
  */
 import { useEffect, useLayoutEffect, useRef, type ElementType, type ReactNode } from "react";
 import { loadGsap, prefersReducedMotion } from "@/lib/gsap";
@@ -36,9 +36,9 @@ export function Reveal({
       el.style.transform = `translateY(${REVEAL.y}px)`;
       el.style.filter = `blur(${REVEAL.blur}px)`;
     }
-    // страховка только на случай, если GSAP так и не загрузился
-    const safety = window.setTimeout(() => items().forEach(clear), 6000);
-    loadGsap().then(() => window.clearTimeout(safety));
+    // Не оставляем карточки невидимыми, если после reload ScrollTrigger не получил событие входа.
+    const safety = window.setTimeout(() => items().forEach(clear), 4500);
+    void loadGsap();
     return () => window.clearTimeout(safety);
      
   }, []);

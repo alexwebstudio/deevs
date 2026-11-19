@@ -1,5 +1,24 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "DEEVS Unispace";
+  src: url("/fonts/unispace-bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+.deevs-wordmark {
+  font-family: "DEEVS Unispace", var(--font-brand);
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  [data-preloader] .deevs-wordmark {
+    font-size: calc(clamp(28px, 4.4vw, 56px) + 20px) !important;
+  }
+}
+
 @theme {
   --color-bg: #f2f2f2;
   --color-surface: #ffffff;
@@ -40,18 +59,6 @@
 /* В Unbounded нет казахских букв (Ә Ғ Қ Ң Ө Ұ Ү Һ) — заголовки KZ набираем Onest */
 html[lang="kk"] {
   --font-display: var(--font-onest-lat), var(--font-onest-cyr), var(--font-onest-kk), var(--font-onest-ext), system-ui, sans-serif;
-}
-
-/* Первый кадр (под прелоадером) — системными шрифтами: веб-шрифты не конкурируют
-   с первым экраном за канал. data-fonts ставит JS сразу после первого кадра
-   (атрибут, а не className — им React не управляет и не сбросит при навигации). */
-html:not([data-fonts]) {
-  --font-brand: "Arial Black", sans-serif;
-  --font-display: "Arial Black", sans-serif;
-  --font-sans: system-ui, sans-serif;
-}
-html[lang="kk"]:not([data-fonts]) {
-  --font-display: system-ui, sans-serif;
 }
 
 :root {
@@ -299,4 +306,9 @@ html[data-loading] {
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+
+/* 404 должна быть самостоятельным экраном без круглого блока подвала. */
+body:has(main[data-not-found]) footer {
+  display: none !important;
 }

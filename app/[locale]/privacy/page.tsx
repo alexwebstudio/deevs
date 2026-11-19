@@ -4,6 +4,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Panel } from "@/components/ui/Section";
 import { pageMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
+import { privacySections } from "@/data/privacy-sections";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -21,7 +22,7 @@ export default async function PrivacyPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations({ locale, namespace: "privacyPage" });
   const nav = await getTranslations({ locale, namespace: "nav" });
-  const sections = t.raw("sections") as { title: string; text: string }[];
+  const sections = privacySections[locale === "kz" ? "kz" : "ru"];
   return (
     <PageShell crumbs={[{ label: t("crumb") }]} label={t("label")} title={t("title")} lead={t("lead")}>
       <Panel className="px-4 py-8 sm:px-6 sm:py-10 md:px-10 md:py-14">

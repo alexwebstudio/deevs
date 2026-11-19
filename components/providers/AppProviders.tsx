@@ -42,9 +42,6 @@ export function AppProviders({ children }: { children: ReactNode }) {
     } else {
       html.removeAttribute("data-loading");
     }
-    // веб-шрифты включаем после первого кадра (см. html:not([data-fonts]) в globals.css)
-    requestAnimationFrame(() => requestAnimationFrame(() => html.setAttribute("data-fonts", "")));
-
     if (prefersReducedMotion()) return;
     // Lenis и GSAP грузим после первой отрисовки — они не нужны для первого кадра
     let cancelled = false;

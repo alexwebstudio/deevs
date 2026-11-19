@@ -11,7 +11,6 @@ import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
 import { LeadModalProvider } from "@/components/providers/LeadModalProvider";
 import { pageMetadata } from "@/lib/seo";
-import "../globals.css";
 
 export const generateStaticParams = () => routing.locales.map((locale) => ({ locale }));
 

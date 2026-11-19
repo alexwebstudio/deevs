@@ -1,17 +1,26 @@
 # ТОО Deevs
 
-Сайт компании Deevs на Next.js 15, TypeScript, Tailwind CSS 4, next-intl, GSAP и Lenis. Композиция, сетка, анимации, переходы, карточки и горизонтальный слайдер перенесены из NORDHAUS; тексты и палитра адаптированы под материалы Deevs и промышленных заказчиков.
+Многоязычный сайт строительной компании Deevs на Next.js, TypeScript и Tailwind CSS.
 
 ## Запуск
 
 ```bash
-npm install
+npm ci
 npm run dev -- --port 3001
 ```
 
-Откройте http://localhost:3001/ru.
+Откройте `http://localhost:3001`. Русская версия работает без языкового префикса, казахская — с `/kz`.
 
-## Проверки
+## Страницы
+
+- Главная: `/`
+- Услуги: `/services`
+- Объекты: `/projects`
+- О компании: `/about`
+- Контакты: `/contacts`
+- Политика обработки данных: `/privacy` и `/kz/privacy` (страницы закрыты от индексации)
+
+## Команды
 
 ```bash
 npm run lint
@@ -19,17 +28,6 @@ npm run typecheck
 npm run build
 ```
 
-## Страницы
-
-- Главная — `/ru`
-- Услуги — `/ru/services`
-- Объекты и страницы проектов — `/ru/projects`
-- О компании — `/ru/about`
-- Контакты — `/ru/contacts`
-- Политика обработки данных — `/privacy` (русский язык), `/kz/privacy` (қазақша)
-
 ## Данные и интеграции
 
-Телефон, бренд и навигация находятся в `config/site.ts`, тексты — `messages/ru.json`, список объектов — `data/works.ts`. При деплое задайте `NEXT_PUBLIC_SITE_URL` для корректных canonical URL, sitemap и Open Graph.
-
-Форма отправляет заявку боту Telegram после настройки `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env.local` (шаблон — `.env.example`). Перезапустите dev-сервер после добавления переменных. Токен хранится только на сервере. Публичная презентация компании размещена в `/deevs-presentation.pdf`. Исходные материалы в `materials/` исключены из Git, так как в них есть таблица лидов.
+Телефон, адрес сайта и контакты находятся в `config/site.ts`; переводы — в `messages/`; список проектов — в `data/works.ts`. Для форм Telegram укажите `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env.local` по образцу `.env.example`. Основная форма заявки открывает WhatsApp с подготовленным сообщением. Для развёртывания задайте `NEXT_PUBLIC_SITE_URL`.

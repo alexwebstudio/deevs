@@ -22,18 +22,24 @@ export function Reviews() {
         label={t("label")}
         title={t("title")}
         aside={
-          <div className="flex items-center gap-4 text-white">
-            <span className="font-brand text-[44px] leading-none font-semibold tracking-[-0.04em]">{statsRating}</span>
-            <span className="text-[13px] leading-snug text-white/60">
-              <span className="flex gap-0.5 text-wood-light" aria-hidden>
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Icon key={i} name="star" className="size-3.5 fill-current" strokeWidth={0} />
-                ))}
+          <div className="flex flex-col gap-3 text-white md:items-end">
+            <div className="flex items-center gap-4">
+              <span className="font-brand text-[44px] leading-none font-semibold tracking-[-0.04em]">{statsRating}</span>
+              <span className="text-[13px] leading-snug text-white/60">
+                <span className="flex gap-0.5 text-wood-light" aria-hidden>
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Icon key={i} name="star" className="size-3.5 fill-current" strokeWidth={0} />
+                  ))}
+                </span>
+                {t("rating")}
+                <br />
+                {t("source")}
               </span>
-              {t("rating")}
-              <br />
-              {t("source")}
-            </span>
+            </div>
+            <a href="https://2gis.kz/astana/inside/70030076513910385/firm/70000001112483051" target="_blank" rel="noreferrer" className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-3 py-2 text-[12px] text-white/75 transition-colors hover:border-white/50 hover:bg-white/10 hover:text-white md:self-end">
+              <span className="grid size-6 place-items-center rounded-full bg-white/10 text-[9px] font-semibold">2ГИС</span>
+              {t("source")} ↗
+            </a>
           </div>
         }
       />
@@ -56,7 +62,7 @@ export function Reviews() {
           </li>
         ))}
       </Reveal>
-      <p className="mt-6 border-t border-white/10 pt-4 text-[12px] text-white/55">{t("sourceNote")} <a href="https://2gis.kz/astana/inside/70030076513910385/firm/70000001112483051" target="_blank" rel="noreferrer" className="underline underline-offset-4">{t("source")} ↗</a></p>
+      <p className="mt-6 border-t border-white/10 pt-4 text-[12px] text-white/55">{t("sourceNote")}</p>
     </Panel>
   );
 }

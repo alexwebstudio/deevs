@@ -45,10 +45,10 @@ export default async function ServicesPage({ params }: Props) {
         <SectionHead label={t("sectionLabel")} title={t("sectionTitle")} lead={t("sectionLead")} />
         <Reveal className="mt-10 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
           {items.map(({ title, text }, i) => (
-            <li key={title} className={`flex min-h-[250px] flex-col rounded-[var(--radius-card)] p-6 ${i === items.length - 1 ? "bg-dark text-white" : "bg-white"}`}>
+            <li key={title} className={`flex min-h-[250px] flex-col rounded-[var(--radius-card)] p-6 transition-[transform,background-color,box-shadow] duration-500 ease-[var(--ease-ui)] hover:-translate-y-1 hover:shadow-lg ${i % 2 === 0 ? "bg-dark text-white" : "bg-white"}`}>
               <span className="font-brand text-xs tracking-widest opacity-50">0{i + 1}</span>
               <h2 className="mt-8 text-xl font-medium">{title}</h2>
-              <p className={`mt-3 text-sm leading-relaxed ${i === items.length - 1 ? "text-white/60" : "text-muted"}`}>{text}</p>
+              <p className={`mt-3 text-sm leading-relaxed ${i % 2 === 0 ? "text-white/65" : "text-muted"}`}>{text}</p>
             </li>
           ))}
         </Reveal>
