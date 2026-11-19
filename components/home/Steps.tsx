@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { stepVisuals } from "@/data/home";
 import { Panel, SectionHead } from "@/components/ui/Section";
 import { Visual } from "@/components/ui/Visual";
-import { PillButton } from "@/components/ui/PillButton";
+import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 import { useGsap, prefersReducedMotion, loadGsap } from "@/lib/gsap";
 
 /**
@@ -110,7 +110,7 @@ export function Steps() {
               })}
             </ol>
             <div className="mt-8">
-              <PillButton href="/projects">{t("cta")}</PillButton>
+              <LeadModalButton className="inline-flex h-12 items-center gap-3 rounded-full bg-dark pl-6 pr-5 text-[14px] font-medium text-white transition-colors hover:bg-ink">{t("cta")} <span aria-hidden>↗</span></LeadModalButton>
             </div>
           </div>
 

@@ -1,14 +1,13 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { realizedVisuals, realizedYears } from "@/data/home";
-import { featuredWorks } from "@/data/works";
+import { featuredWorks, localizedWorkLocation, localizedWorkTitle } from "@/data/works";
 import { Panel, SectionHead } from "@/components/ui/Section";
-import { Visual } from "@/components/ui/Visual";
 import { PillButton, Arrow } from "@/components/ui/PillButton";
 import { Reveal } from "@/components/effects/Reveal";
 
 export function Realized() {
   const t = useTranslations("home.realized");
+  const locale = useLocale();
   const items = featuredWorks.slice(0, 3);
   return (
     <Panel className="px-5 py-14 md:px-12 md:py-20">
@@ -22,22 +21,20 @@ export function Realized() {
         }
       />
       <Reveal className="mt-12 grid gap-3 md:grid-cols-3">
-        {items.map((it, i) => (
+        {items.map((it) => (
           <li key={it.slug}>
             <Link
               href={`/projects/${it.slug}`}
               className="group block h-full rounded-[var(--radius-card)] border border-white bg-white p-2 shadow-[0_20px_50px_-30px_rgba(20,21,24,.2)] transition-[transform,box-shadow] duration-500 hover:-translate-y-[5px] hover:shadow-[0_34px_70px_-34px_rgba(20,21,24,.32)]"
             >
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[var(--radius-photo)]">
-                <div className="absolute inset-0 transition-transform duration-[var(--dur-photo)] group-hover:scale-[1.05]">
-                  <Visual visual={realizedVisuals[i]} sizes="(max-width: 768px) 100vw, 33vw" className="grayscale transition-[filter] duration-700 group-hover:grayscale-0" />
-                </div>
-                <span className="glass absolute top-3 left-3 rounded-full px-3 py-1 text-[12px] font-medium">{realizedYears[i]}</span>
+              <div className="relative flex aspect-[4/3] items-end overflow-hidden rounded-[var(--radius-photo)] bg-[linear-gradient(145deg,#484848_0%,#222_56%,#111_100%)] p-5 text-white">
+                <span aria-hidden className="absolute -right-3 -bottom-12 font-brand text-[clamp(100px,18vw,180px)] leading-none text-white/[.07]">DEEVS</span>
+                <span className="relative rounded-full border border-white/30 px-3 py-1 text-[12px] font-medium">{it.year ?? t("dateUnknown")}</span>
               </div>
               <div className="px-4 pt-5 pb-4">
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="text-[20px] font-medium tracking-[-0.01em]">{it.title}</h3>
-                  <span className="text-[13px] text-muted">{it.location}</span>
+                  <h3 className="text-[20px] font-medium tracking-[-0.01em]">{localizedWorkTitle(it, locale)}</h3>
+                  <span className="text-[13px] text-muted">{localizedWorkLocation(it, locale)}</span>
                 </div>
                 <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[14px] text-muted">
                   <span>{it.client}</span>

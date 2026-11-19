@@ -229,6 +229,22 @@ html[data-loading] {
   border-color: #c0392b;
 }
 
+/* Document cards rise smoothly on devices that support hover. */
+.credential-card {
+  transition: transform 560ms var(--ease-ui), box-shadow 560ms var(--ease-ui);
+}
+@media (hover: hover) and (pointer: fine) {
+  .credential-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 34px 70px -34px rgb(17 17 17 / 0.3);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .credential-card {
+    transition-duration: 1ms;
+  }
+}
+
 .quiz-range {
   appearance: none;
   height: 28px;

@@ -35,6 +35,7 @@ export function Header() {
 
   // переключатель языка показываем, только когда локалей больше одной
   const multiLang = routing.locales.length > 1;
+  const localeLabel = (l: string) => l === "ru" ? "RU" : "ҚАЗ";
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href.split("/").slice(0, 2).join("/")));
 
@@ -45,14 +46,14 @@ export function Header() {
   };
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[var(--gutter)] pt-[calc(var(--gutter)+10px)]">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-[var(--gutter)] pt-[calc(var(--gutter)+env(safe-area-inset-top)+10px)]">
       <div
-        className={`pointer-events-auto mx-auto flex h-14 items-center justify-between gap-2 rounded-full pr-2 pl-5 text-white transition-[max-width,background-color,border-color,box-shadow] duration-[var(--dur-expand)] sm:gap-4 ${
+        className={`pointer-events-auto mx-auto flex h-14 min-w-0 items-center justify-between gap-1.5 rounded-full pr-1.5 pl-3 text-white transition-[max-width,background-color,border-color,box-shadow] duration-[var(--dur-expand)] min-[380px]:gap-2 min-[380px]:pr-2 min-[380px]:pl-4 sm:gap-4 sm:pl-5 ${
           scrolled ? "glass-dark max-w-[1180px]" : "max-w-full border border-transparent"
         }`}
       >
         <Link href="/" aria-label={t("header.homeAria")} className="text-[15px] transition-opacity hover:opacity-80">
-          <Wordmark variant="white" />
+          <Wordmark variant="white" className="[&_img]:w-[70px] min-[380px]:[&_img]:w-[84px] sm:[&_img]:w-[104px]" />
         </Link>
 
         <nav aria-label={t("header.mainMenu")} className="hidden xl:block">
@@ -73,7 +74,7 @@ export function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <div className={`hidden items-center gap-1 text-[11px] font-semibold ${multiLang ? "sm:flex" : ""}`} role="group" aria-label={t("header.language")}>
+          <div className={`hidden items-center gap-1 rounded-full border border-white/25 bg-white/5 p-1 text-[11px] font-semibold ${multiLang ? "sm:flex" : ""}`} role="group" aria-label={t("header.language")}>
             {routing.locales.map((l) => (
               <button
                 key={l}
@@ -81,18 +82,18 @@ export function Header() {
                 onClick={() => switchTo(l)}
                 aria-pressed={locale === l}
                 lang={htmlLang(l)}
-                className={`h-7 rounded-full border px-2.5 uppercase transition-colors ${
-                  locale === l ? "border-white bg-white text-graphite" : "border-white/35 text-white/80 hover:border-white/70"
+                className={`h-7 min-w-9 rounded-full px-2.5 uppercase transition-colors ${
+                  locale === l ? "bg-white text-graphite shadow-sm" : "text-white/80 hover:bg-white/10 hover:text-white"
                 }`}
               >
-                {l}
+                {localeLabel(l)}
               </button>
             ))}
           </div>
           <button
             type="button"
             onClick={openLeadModal}
-            className="inline-flex h-10 min-w-[132px] shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white px-3 text-[10px] font-semibold tracking-[0.02em] text-graphite uppercase transition-[transform,background-color] hover:scale-[1.03] hover:bg-surface sm:min-w-[164px] sm:px-5 sm:text-[12px] sm:tracking-[0.04em]"
+            className="inline-flex h-10 min-w-[108px] shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-white px-2 text-[9px] font-semibold tracking-[0.01em] text-graphite uppercase transition-[transform,background-color] hover:scale-[1.03] hover:bg-surface min-[380px]:min-w-[128px] min-[380px]:px-3 min-[380px]:text-[10px] sm:min-w-[164px] sm:px-5 sm:text-[12px] sm:tracking-[0.04em]"
           >
             {t("header.discuss")}
           </button>
@@ -102,7 +103,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t("header.menuClose") : t("header.menuOpen")}
-            className="relative grid size-10 place-items-center rounded-full border border-white/30 transition-colors hover:border-white/60 xl:hidden"
+            className="relative grid size-10 shrink-0 place-items-center rounded-full border border-white/30 transition-colors hover:border-white/60 xl:hidden"
           >
             <span className={`absolute h-px w-4 bg-white transition-transform ${open ? "rotate-45" : "-translate-y-[3px]"}`} />
             <span className={`absolute h-px w-4 bg-white transition-transform ${open ? "-rotate-45" : "translate-y-[3px]"}`} />
@@ -112,7 +113,7 @@ export function Header() {
 
       <div
         id="mobile-menu"
-        className={`glass-dark mx-auto mt-2 overflow-hidden rounded-[var(--radius-card)] text-white transition-[clip-path,opacity] duration-[var(--dur-expand)] xl:hidden ${
+        className={`glass-dark mx-auto mt-2 max-h-[calc(100dvh-96px)] overflow-x-hidden overflow-y-auto overscroll-contain rounded-[var(--radius-card)] text-white transition-[clip-path,opacity] duration-[var(--dur-expand)] xl:hidden ${
           open ? "pointer-events-auto opacity-100 [clip-path:inset(0_0_0_0_round_24px)]" : "pointer-events-none opacity-0 [clip-path:inset(0_0_100%_0_round_24px)]"
         }`}
         inert={!open}
@@ -141,7 +142,7 @@ export function Header() {
                 locale === l ? "border-white bg-white text-graphite" : "border-white/35 text-white/80"
               }`}
             >
-              {l}
+              {localeLabel(l)}
             </button>
           ))}
         </div>

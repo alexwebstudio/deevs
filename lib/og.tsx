@@ -20,7 +20,7 @@ export async function renderOg({ title, kicker, accent, tagline, words }: { titl
     font("unbounded-latin-ext-700-normal.woff"),
     font("onest-latin-ext-400-normal.woff"),
     font("onest-cyrillic-ext-400-normal.woff"),
-    readFile(join(process.cwd(), "public/images/deevs-hero.jpg")),
+    readFile(join(process.cwd(), "public/images/deevs-hero-hq.jpg")),
   ]);
   const src = `data:image/jpeg;base64,${photo.toString("base64")}`;
 

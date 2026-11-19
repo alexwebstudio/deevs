@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { reviewsBackground, statsRating } from "@/data/home";
+import Image from "next/image";
+import { statsRating } from "@/data/home";
 import { Panel, SectionHead } from "@/components/ui/Section";
 import { Icon } from "@/components/ui/Icon";
 import { Reveal } from "@/components/effects/Reveal";
@@ -12,9 +12,10 @@ export function Reviews() {
   const items = t.raw("items") as Review[];
   return (
     <Panel tone="dark" className="relative isolate overflow-hidden px-5 py-14 md:px-12 md:py-20">
-      {/* фон под стекло — фото объекта из презентации Deevs */}
-      <Image src={reviewsBackground} alt="" fill sizes="100vw" className="-z-10 object-cover opacity-45" style={{ objectPosition: "50% 35%" }} />
-      <div aria-hidden className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_20%_0%,rgba(22,24,27,.35),rgba(22,24,27,.92)_70%)]" />
+      <div aria-hidden className="absolute inset-0 -z-10 bg-graphite">
+        <Image src="/images/editorial/reviews-background.jpg" alt="" fill sizes="100vw" className="object-cover opacity-30" />
+        <span className="absolute inset-0 bg-[linear-gradient(145deg,rgba(17,17,17,.72),rgba(17,17,17,.9))]" />
+      </div>
 
       <SectionHead
         dark
@@ -48,13 +49,14 @@ export function Reviews() {
             <div className="mt-auto flex items-center gap-3 border-t border-white/10 pt-5">
               <span className="font-display grid size-11 shrink-0 place-items-center rounded-full bg-white/10 text-[13px] font-semibold">2ГИС</span>
               <span className="min-w-0">
-                <span className="block truncate text-[15px] font-medium">Отзыв клиента</span>
-                <span className="block text-[13px] text-white/55">Астана · 2ГИС · 5 звёзд</span>
+                <span className="block truncate text-[15px] font-medium">{t("author")}</span>
+                <span className="block text-[13px] text-white/55">{t("ratingMeta")}</span>
               </span>
             </div>
           </li>
         ))}
       </Reveal>
+      <p className="mt-6 border-t border-white/10 pt-4 text-[12px] text-white/55">{t("sourceNote")} <a href="https://2gis.kz/astana/inside/70030076513910385/firm/70000001112483051" target="_blank" rel="noreferrer" className="underline underline-offset-4">{t("source")} ↗</a></p>
     </Panel>
   );
 }

@@ -34,16 +34,17 @@ export function Hero() {
   useGsap(
     ({ gsap }) => {
       if (!introDone) return;
-      const wins = gsap.utils.toArray<HTMLElement>("[data-win]");
-      const photos = gsap.utils.toArray<HTMLElement>("[data-photo]");
+      const wins = gsap.utils.toArray<HTMLElement>("[data-win]").filter((win) => getComputedStyle(win).display !== "none");
+      const photos = wins.map((win) => win.querySelector<HTMLElement>("[data-photo]")).filter((photo): photo is HTMLElement => Boolean(photo));
+      const compactLayout = window.matchMedia("(max-width: 1199px)").matches;
       if (prefersReducedMotion()) {
         gsap.to(wins, { opacity: 1, duration: 0.6 });
         return;
       }
       gsap
-        .timeline({ defaults: { ease: "expo.out", duration: 1.4 } })
+        .timeline({ defaults: { ease: "expo.out", duration: compactLayout ? 0.85 : 1.4 } })
         .fromTo(wins, { clipPath: "inset(100% 0% 0% 0% round 28px)" }, { clipPath: "inset(0% 0% 0% 0% round 28px)", stagger: 0.12, immediateRender: true }, 0)
-        .fromTo(photos, { scale: 1.15 }, { scale: 1, duration: 2, stagger: 0.12 }, 0)
+        .fromTo(photos, { scale: compactLayout ? 1.06 : 1.15 }, { scale: 1, duration: compactLayout ? 1 : 2, stagger: 0.12 }, 0)
         .fromTo("[data-hero-cta]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1.1, stagger: 0.1 }, 1.0);
     },
     [introDone],
@@ -58,8 +59,9 @@ export function Hero() {
     const fit = () => {
       h1.style.fontSize = "100px";
       const natural = h1.scrollWidth;
-      const target = copy.clientWidth;
-      if (natural > 0 && target > 0) h1.style.fontSize = `${(100 * target) / natural}px`;
+      const target = Math.min(copy.clientWidth, window.innerWidth < 768 ? window.innerWidth - 40 : copy.clientWidth);
+      const responsiveCap = window.innerWidth < 768 ? window.innerWidth * 0.27 : window.innerWidth < 1200 ? window.innerWidth * 0.18 : Infinity;
+      if (natural > 0 && target > 0) h1.style.fontSize = `${Math.min((100 * target * 0.96) / natural, responsiveCap)}px`;
     };
     fit();
     // веб-шрифт подключается после первого кадра — перемеряем, когда он догрузится
@@ -93,11 +95,10 @@ export function Hero() {
                     alt={i === 0 ? t("aria") : ""}
                     aria-hidden={i !== 0}
                     fill
-                    priority
-                    fetchPriority="high"
-                    loading="eager"
+                    priority={i === 0}
+                    fetchPriority={i === 0 ? "high" : "low"}
+                    loading={i === 0 ? "eager" : "lazy"}
                     sizes="100vw"
-                    quality={78}
                     style={{ objectFit: "cover", objectPosition: photo.position }}
                   />
                 ) : (

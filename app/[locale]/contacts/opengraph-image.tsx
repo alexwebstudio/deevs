@@ -10,5 +10,5 @@ export const generateStaticParams = () => routing.locales.map((locale) => ({ loc
 export default async function Image({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const t = await getTranslations({ locale,  });
-  return renderOg({ title: t("meta.contacts.title"), kicker: "Связаться с компанией", tagline: t("meta.ogTagline"), words: t.raw("hero.words") as string[] });
+  return renderOg({ title: t("meta.contacts.title"), kicker: locale === "kz" ? "Компаниямен байланысу" : "Связаться с компанией", tagline: t("meta.ogTagline"), words: t.raw("hero.words") as string[] });
 }

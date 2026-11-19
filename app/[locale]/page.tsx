@@ -6,7 +6,6 @@ import { Services } from "@/components/home/Services";
 import { ProjectsRail } from "@/components/home/ProjectsRail";
 import { Credentials } from "@/components/home/Credentials";
 import { Steps } from "@/components/home/Steps";
-import { Realized } from "@/components/home/Realized";
 import { Reviews } from "@/components/home/Reviews";
 import { Faq } from "@/components/home/Faq";
 import { FinalCta } from "@/components/home/FinalCta";
@@ -26,7 +25,6 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
           <ProjectsRail />
           <Credentials />
           <Steps />
-          <Realized />
           <Reviews />
           <Faq />
           <FinalCta />

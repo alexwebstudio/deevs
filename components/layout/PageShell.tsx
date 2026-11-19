@@ -5,6 +5,7 @@ import { TextFlip } from "@/components/effects/TextFlip";
 import { BlurIn } from "@/components/effects/BlurIn";
 import { Label } from "@/components/ui/Section";
 import { site } from "@/config/site";
+import { localizedPath } from "@/i18n/routing";
 
 type Crumb = { href?: string; label: string };
 
@@ -37,7 +38,7 @@ export function PageShell({
       "@type": "ListItem",
       position: i + 1,
       name: c.label,
-      ...(c.href ? { item: `${site.url}/${locale}${c.href === "/" ? "" : c.href}` } : {}),
+      ...(c.href ? { item: new URL(localizedPath(locale, c.href), site.url).toString() } : {}),
     })),
   };
   return (

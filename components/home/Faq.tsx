@@ -1,8 +1,8 @@
 import { useTranslations } from "next-intl";
 import { site } from "@/config/site";
 import { Panel, SectionHead } from "@/components/ui/Section";
-import { PillButton } from "@/components/ui/PillButton";
 import { Accordion } from "@/components/ui/Accordion";
+import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 
 export function Faq() {
   const t = useTranslations("home.faq");
@@ -14,9 +14,7 @@ export function Faq() {
           <p className="text-[19px] font-medium">{t("missTitle")}</p>
           <p className="mt-2 text-[15px] text-white/60">{t("missText")}</p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
-            <PillButton variant="light" href="/contacts">
-              {t("ask")}
-            </PillButton>
+            <LeadModalButton className="inline-flex h-12 items-center gap-3 rounded-full bg-white pl-6 pr-5 text-[14px] font-medium text-ink transition-colors hover:bg-surface">{t("ask")} <span aria-hidden>↗</span></LeadModalButton>
             <a href={site.phoneHref} className="font-brand text-[14px] text-white/80 transition-colors hover:text-white">
               {site.phone}
             </a>

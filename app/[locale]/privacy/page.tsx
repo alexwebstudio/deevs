@@ -1,2 +1,43 @@
-import {PageShell} from "@/components/layout/PageShell";import {Panel} from "@/components/ui/Section";import {setRequestLocale} from "next-intl/server";
-export default async function PrivacyPage({params}:{params:Promise<{locale:string}>}){const {locale}=await params;setRequestLocale(locale);return <PageShell crumbs={[{label:"Политика конфиденциальности"}]} label="Документы" title="Политика обработки персональных данных" lead="Информация о данных, которые могут быть указаны при обращении в ТОО Deevs."><Panel className="prose max-w-none px-6 py-10 md:px-12 md:py-14"><h2>Какие данные указываются</h2><p>В форме обращения можно указать имя, компанию, номер телефона, описание объекта и приложить файл технического задания. Просим не указывать сведения, не относящиеся к вашему обращению.</p><h2>Для чего используются данные</h2><p>После настройки интеграции данные из формы будут передаваться через Telegram менеджеру ТОО Deevs для ответа на обращение. Передаются только поля, заполненные вами, и прикреплённый файл. Если отправка формы недоступна, используйте телефон или WhatsApp на странице контактов.</p><h2>Связь</h2><p>ТОО Deevs · +7 777 993 3999 · Республика Казахстан, г. Астана.</p></Panel></PageShell>}
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { PageShell } from "@/components/layout/PageShell";
+import { Panel } from "@/components/ui/Section";
+import { pageMetadata } from "@/lib/seo";
+import { Link } from "@/i18n/navigation";
+
+type Props = { params: Promise<{ locale: string }> };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "privacyPage" });
+  return {
+    ...pageMetadata({ locale, path: "/privacy", title: t("title"), description: t("lead"), keywords: locale === "kz" ? ["Deevs құпиялылық саясаты", "дербес деректерді өңдеу"] : ["политика конфиденциальности Deevs", "обработка персональных данных"] }),
+    robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
+  };
+}
+
+export default async function PrivacyPage({ params }: Props) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+  const t = await getTranslations({ locale, namespace: "privacyPage" });
+  const nav = await getTranslations({ locale, namespace: "nav" });
+  const sections = t.raw("sections") as { title: string; text: string }[];
+  return (
+    <PageShell crumbs={[{ label: t("crumb") }]} label={t("label")} title={t("title")} lead={t("lead")}>
+      <Panel className="px-4 py-8 sm:px-6 sm:py-10 md:px-10 md:py-14">
+        <div className="mb-8 flex flex-col gap-3 border-b border-ink/10 pb-6 sm:flex-row sm:items-end sm:justify-between">
+          <p className="max-w-[52ch] text-[14px] leading-relaxed text-muted">{t("lead")}</p>
+          <Link href="/contacts" className="inline-flex w-fit shrink-0 underline underline-offset-4">{nav("contacts")} ↗</Link>
+        </div>
+        <ol className="grid min-w-0 gap-3 md:grid-cols-2">
+          {sections.map((section) => (
+            <li key={section.title} className="min-w-0 rounded-[var(--radius-card)] border border-white bg-white/75 p-5 shadow-[0_16px_40px_-32px_rgba(17,17,17,.25)] sm:p-6">
+              <h2 className="text-[18px] font-medium leading-snug sm:text-[20px]">{section.title}</h2>
+              <p className="mt-3 text-[14px] leading-relaxed text-muted [overflow-wrap:anywhere]">{section.text}</p>
+            </li>
+          ))}
+        </ol>
+      </Panel>
+    </PageShell>
+  );
+}

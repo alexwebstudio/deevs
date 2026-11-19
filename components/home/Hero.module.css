@@ -35,6 +35,7 @@
   clip-path: inset(0% 0% 0% 0% round 28px);
   background: #202328;
   transform: translateZ(0);
+  will-change: clip-path;
 }
 
 .photoWrap {
@@ -49,6 +50,7 @@
   position: absolute;
   inset: 0;
   transform-origin: 50% 60%;
+  will-change: transform;
 }
 
 /* Плейсхолдер фото: один спокойный графитовый «кадр» на всю сцену — читается сквозь все окна */
@@ -108,6 +110,7 @@
   letter-spacing: -0.035em;
   white-space: nowrap;
   width: max-content;
+  max-width: 100%;
   margin-left: -0.04em;
 }
 
@@ -286,6 +289,12 @@
     align-items: baseline;
     gap: 5px 10px;
     font-size: clamp(11px, 3.2vw, 14px);
+    max-width: 100%;
+  }
+  .words > li {
+    min-width: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
   .ctaPrimary,
   .ctaSecondary {
@@ -304,5 +313,64 @@
   }
   .words {
     top: 42cqh;
+  }
+}
+
+/* Tablet hero: keep the two photo windows together and move all copy below them. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .hero {
+    height: max(100svh, 920px);
+    min-height: 920px;
+    max-height: none;
+  }
+  .stage {
+    --n: 2;
+    inset: 16px 16px 24px;
+  }
+  .desktopOnly {
+    display: none;
+  }
+  .win[data-win="0"] {
+    --t: 3 !important;
+    --b: 37 !important;
+  }
+  .win[data-win="0"] .photoWrap {
+    top: -30cqh;
+  }
+  .win[data-win="1"] {
+    --t: 7 !important;
+    --b: 33 !important;
+  }
+  .win[data-win="1"] .photoWrap {
+    top: -27cqh;
+  }
+  .copy {
+    top: 53cqh;
+    bottom: auto;
+    width: 100cqw;
+  }
+  .subtitle {
+    max-width: 58ch;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .words {
+    top: 43cqh;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 16px;
+    font-size: clamp(13px, 1.65vw, 18px);
+  }
+}
+
+/* In the two-window layout, overlap the crops slightly so both panels show the house. */
+@media (max-width: 1199px) {
+  .win[data-win="1"] .photoWrap {
+    left: calc((var(--cw) + var(--g)) * -0.55);
   }
 }

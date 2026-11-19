@@ -3,19 +3,17 @@
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useApp, wasIntroPlayed } from "@/components/providers/AppProviders";
-import { loadGsap, prefersReducedMotion } from "@/lib/gsap";
+import { prefersReducedMotion } from "@/lib/gsap";
 import { FRAME } from "@/components/ui/houseFrame";
 
-const SEEN_KEY = "deevs-intro-seen";
 /** power2.inOut / expo.inOut / ease-out-quint как cubic-bezier для Web Animations API */
 const POWER2_IN_OUT = "cubic-bezier(0.45, 0, 0.55, 1)";
 const EXPO_IN_OUT = "cubic-bezier(0.87, 0, 0.13, 1)";
 const QUINT_OUT = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 /**
- * Прелоадер (~4s): на графите тонкими линиями прорисовывается архитектурная форма,
- * над ней мягко поднимается DEEVS, пауза — и экран уходит clip-path прямо в анимацию hero.
- * Повторный визит в сессии — ~0.8s. При переходах между страницами и смене языка не показывается.
+ * Прелоадер длится около 3 секунд и одинаково проигрывается при каждой полной перезагрузке.
+ * При переходах между страницами и смене языка не показывается.
  * Работает на Web Animations API — стартует сразу, без ожидания библиотек.
  */
 export function Preloader() {
@@ -40,12 +38,7 @@ export function Preloader() {
       return an;
     };
     const wait = (ms: number) => new Promise<void>((r) => timers.push(window.setTimeout(r, ms)));
-    const done = () => {
-      try {
-        sessionStorage.setItem(SEEN_KEY, "1");
-      } catch {}
-      setGone(true);
-    };
+    const done = () => setGone(true);
 
     if (prefersReducedMotion()) {
       lines.forEach((l) => (l.style.strokeDashoffset = "0"));
@@ -54,16 +47,6 @@ export function Preloader() {
       A(el, [{ opacity: 1 }, { opacity: 0 }], { duration: 400, delay: 300 }).onfinish = done;
       return () => timers.forEach(clearTimeout);
     }
-
-    let seen = false;
-    try {
-      seen = sessionStorage.getItem(SEEN_KEY) === "1";
-    } catch {}
-
-    // к уходу экрана должны быть готовы hero-фото (если есть) и GSAP для анимации окон; максимум 2.5s
-    const heroImg = document.querySelector<HTMLImageElement>("[data-win] img");
-    const imgReady = heroImg && !heroImg.complete ? new Promise((r) => heroImg.addEventListener("load", r, { once: true })) : Promise.resolve();
-    const heroReady = Promise.race([Promise.all([imgReady, loadGsap()]), wait(2500)]);
 
     const exit = (dur: number) => {
       if (cancelled) return;
@@ -82,25 +65,15 @@ export function Preloader() {
         { duration: dur, delay, easing: QUINT_OUT },
       );
 
-    if (seen) {
-      // Повторный визит: сохраняем тот же ритм, суммарно около 3 секунд.
-      lines.forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 720, delay: i * 10, easing: POWER2_IN_OUT }));
-      letters.forEach((_, i) => letterIn(i, 100 + i * 28, 680));
-      wait(2600)
-        .then(() => heroReady)
-        .then(() => exit(800));
-    } else {
-      // Первый визит: медленнее прорисовываем каркас последовательными группами.
-      for (let g = 0; g <= 5; g++) {
-        lines
-          .filter((l) => l.dataset.group === String(g))
-          .forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 1150, delay: 180 + g * 300 + i * 40, easing: POWER2_IN_OUT }));
-      }
-      letters.forEach((_, i) => letterIn(i, 1650 + i * 65, 900));
-      wait(2700)
-        .then(() => heroReady)
-        .then(() => exit(900));
+    // One timing sequence prevents reloads from switching to a shorter animation.
+    for (let g = 0; g <= 5; g++) {
+      lines
+        .filter((l) => l.dataset.group === String(g))
+        .forEach((l, i) => A(l, [{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 760, delay: 100 + g * 170 + i * 24, easing: POWER2_IN_OUT }));
     }
+    letters.forEach((_, i) => letterIn(i, 900 + i * 45, 700));
+    wait(2200)
+      .then(() => exit(800));
 
     return () => {
       cancelled = true;
@@ -126,7 +99,7 @@ export function Preloader() {
         {/* Буквы DEEVS поднимаются из размытия по исходной анимации */}
         <p className="font-brand mb-8 text-[clamp(28px,4.4vw,56px)] leading-none tracking-[0.06em] uppercase" aria-hidden>
           {Array.from(word).map((ch, i) => (
-            <span key={i} data-letter className={`inline-block opacity-0 ${i < 4 ? "font-bold" : "font-light"}`}>
+            <span key={i} data-letter className="inline-block font-bold opacity-0">
               {ch}
             </span>
           ))}
