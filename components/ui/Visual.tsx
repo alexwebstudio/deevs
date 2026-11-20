@@ -13,6 +13,8 @@ export function Visual({
   sizes?: string;
   className?: string;
   priority?: boolean;
+  /** Kept for compatibility with compact gallery thumbnails. */
+  compact?: boolean;
 }) {
   const t = useTranslations();
   return <Image src={visual.src} alt={t(visual.altKey)} fill sizes={sizes} priority={priority} className={`object-cover ${className}`} style={{ objectPosition: visual.position ?? "50% 50%" }} />;
