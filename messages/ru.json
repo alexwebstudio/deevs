@@ -54,8 +54,7 @@
   "common": {
     "home": "Главная",
     "breadcrumbs": "Хлебные крошки",
-    "photo": "Фото",
-    "placeholderSize": "{ratio} · от {size}"
+    "photo": "Фото"
   },
   "preloader": {
     "aria": "Загрузка сайта ТОО Deevs"
@@ -78,8 +77,7 @@
     ],
     "wordsAria": "Направления работ",
     "ctaPrimary": "Обсудить объект",
-    "ctaSecondary": "Смотреть PDF-презентацию",
-    "placeholder": "Промышленные и общественные объекты"
+    "ctaSecondary": "Смотреть PDF-презентацию"
   },
   "home": {
     "offer": {
@@ -95,7 +93,7 @@
           "value": 2006,
           "suffix": "",
           "unit": "год",
-          "label": "начала работы в строительстве, по данным презентации"
+          "label": "начала работы в строительстве"
         },
         {
           "value": 2,

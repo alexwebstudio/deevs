@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
   images: { formats: ["image/avif", "image/webp"] },
   async redirects() {
     return [
+      { source: "/ru", destination: "/", permanent: true },
+      { source: "/ru/:path*", destination: "/:path*", permanent: true },
       { source: "/:locale/catalog/:path*", destination: "/:locale/services", permanent: true },
       { source: "/:locale/catalog", destination: "/:locale/services", permanent: true },
       { source: "/:locale/technology", destination: "/:locale/about", permanent: true },

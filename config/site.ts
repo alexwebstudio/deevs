@@ -7,7 +7,6 @@ export const site = {
   phone: "+7 777 993 3999",
   phoneHref: "tel:+77779933999",
   whatsapp: "https://wa.me/77779933999",
-  telegram: "",
   email: "too_deevs1@mail.ru",
   developer: { name: "AlexWebStudio", url: "https://alexwebstudio.ru" },
 } as const;

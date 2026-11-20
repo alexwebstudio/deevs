@@ -1,5 +1,6 @@
 node_modules
 .next
+.next-*/
 out
 *.tsbuildinfo
 .env*.local
@@ -11,3 +12,6 @@ tmp/
 
 .claude/
 references/
+PROMPT_NORDHAUS.md
+TZ_NORDHAUS.md
+IMAGES_NEEDED.md

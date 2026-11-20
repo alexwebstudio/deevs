@@ -58,37 +58,6 @@
   will-change: transform;
 }
 
-/* Плейсхолдер фото: один спокойный графитовый «кадр» на всю сцену — читается сквозь все окна */
-.placeholder {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 60% at 55% 45%, rgb(255 255 255 / 0.05), transparent 70%),
-    linear-gradient(170deg, #2a2d32 0%, #1f2226 55%, #191b1f 100%);
-}
-.phCaption {
-  position: absolute;
-  inset: auto 0 50% 0;
-  transform: translateY(50%);
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding: 0 14px;
-  text-align: center;
-  font-size: 13px;
-  line-height: 1.35;
-  color: rgb(255 255 255 / 0.6);
-}
-.phSize {
-  font-family: var(--font-brand);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: rgb(255 255 255 / 0.35);
-}
-.mobileOnly {
-  display: none;
-}
-
 /* тонкий светлый stroke + мягкое затемнение снизу для читаемости */
 .shade {
   position: absolute;
@@ -212,6 +181,10 @@
     height: calc(113svh - 85px);
   }
 
+  .subtitle {
+    margin-top: calc(clamp(10px, 1.4cqh, 16px) + 20px);
+  }
+
   /* Leave a clear band under the photo windows for the heading and both CTAs. */
   .win[data-win="0"],
   .win[data-win="1"] {
@@ -275,7 +248,7 @@
   .logo {
     margin-right: auto;
     margin-left: auto;
-    transform: translateY(-8px);
+    transform: translateY(-18px);
   }
   .subtitle {
     margin-top: clamp(16px, 2.2cqh, 20px);
@@ -296,6 +269,17 @@
   .ctaPrimary,
   .ctaSecondary {
     width: 100%;
+  }
+  .ctaWrap {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .ctaPrimary,
+  .ctaSecondary {
+    width: calc(100% - 60px);
+    margin-right: auto;
+    margin-left: auto;
   }
   .ctaPrimary {
     position: relative;

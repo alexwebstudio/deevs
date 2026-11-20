@@ -30,4 +30,4 @@ npm run build
 
 ## Данные и интеграции
 
-Телефон, адрес сайта и контакты находятся в `config/site.ts`; переводы — в `messages/`; список проектов — в `data/works.ts`. Для форм Telegram укажите `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в `.env.local` по образцу `.env.example`. Основная форма заявки открывает WhatsApp с подготовленным сообщением. Для развёртывания задайте `NEXT_PUBLIC_SITE_URL`.
+Телефон, WhatsApp, адрес сайта и контакты находятся в `config/site.ts`; переводы — в `messages/`; список проектов — в `data/works.ts`. Форма заявки открывает WhatsApp с подготовленным сообщением. Для развёртывания задайте `NEXT_PUBLIC_SITE_URL`.

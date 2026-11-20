@@ -24,11 +24,11 @@ const WINDOWS = [
 
 export function Hero() {
   const t = useTranslations("hero");
-  const tc = useTranslations("common");
   const root = useRef<HTMLElement>(null);
   const { introDone } = useApp();
   const openLeadModal = useOpenLeadModal();
   const words = t.raw("words") as string[];
+  const photo = heroVisual.kind === "photo" ? heroVisual : null;
 
   // Вход — после прелоадера: окна «вырастают» снизу вверх, фото внутри мягко уменьшается
   useGsap(
@@ -79,8 +79,6 @@ export function Hero() {
     };
   }, []);
 
-  const photo = heroVisual.kind === "photo" ? heroVisual : null;
-
   return (
     <section ref={root} className={styles.hero} aria-label={t("aria")}>
       <div data-stage className={styles.stage}>
@@ -93,30 +91,19 @@ export function Hero() {
           >
             <div className={styles.photoWrap}>
               <div data-photo className={styles.photo}>
-                {photo ? (
-                  <Image
-                    src={photo.src}
-                    alt={i === 0 ? t("aria") : ""}
-                    aria-hidden={i !== 0}
-                    fill
-                    priority={i === 0}
-                    fetchPriority={i === 0 ? "high" : "low"}
-                    loading={i === 0 ? "eager" : "lazy"}
-                    sizes="100vw"
-                    style={{ objectFit: "cover", objectPosition: photo.position }}
-                  />
-                ) : (
-                  <div className={styles.placeholder} aria-hidden={i !== 2} />
-                )}
+                {photo && <Image
+                  src={photo.src}
+                  alt={i === 0 ? t("aria") : ""}
+                  aria-hidden={i !== 0}
+                  fill
+                  priority={i === 0}
+                  fetchPriority={i === 0 ? "high" : "low"}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  sizes="100vw"
+                  style={{ objectFit: "cover", objectPosition: photo.position }}
+                />}
               </div>
             </div>
-            {/* подпись плейсхолдера: в самом высоком окне (на мобилке — в первом) */}
-            {!photo && heroVisual.kind === "placeholder" && (i === 2 || i === 0) && (
-              <p className={`${styles.phCaption} ${i === 0 ? styles.mobileOnly : ""}`}>
-                <span>{t("placeholder")}</span>
-                <span className={styles.phSize}>{tc("placeholderSize", { ratio: heroVisual.ratio, size: heroVisual.size })}</span>
-              </p>
-            )}
             <span className={styles.shade} aria-hidden />
           </div>
         ))}
