@@ -6,7 +6,7 @@ import { PageShell } from "@/components/layout/PageShell";
 import { Panel } from "@/components/ui/Section";
 import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 import { localizedWorkLocation, localizedWorkTitle, works } from "@/data/works";
-import { pageMetadata } from "@/lib/seo";
+import { clampText, pageMetadata } from "@/lib/seo";
 import { site } from "@/config/site";
 import { localizedPath } from "@/i18n/routing";
 
@@ -21,9 +21,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale, namespace: "meta.project" });
   const title = localizedWorkTitle(work, locale);
   const location = localizedWorkLocation(work, locale);
-  const descriptor = locale === "kz" ? "ТОО Deevs портфолиосындағы жоба" : "проект из портфолио ТОО Deevs";
-  const description = [title, work.client, location, work.year, descriptor].filter(Boolean).join(" · ");
-  return pageMetadata({ locale, path: `/projects/${slug}`, title: t("title", { name: title }), description, keywords: [title, location, work.client || (locale === "kz" ? "Қазақстандағы құрылыс" : "строительство Казахстан")].filter((keyword): keyword is string => Boolean(keyword)), image: work.image || localizedPath(locale, "/projects/opengraph-image"), type: "article" });
+  // Бренд добавляем, только если заголовок не выйдет за ~65 символов (иначе Google обрежет)
+  const fullTitle = t("title", { name: title });
+  const place = [location, work.year].filter(Boolean).join(", ");
+  // Части добавляются по порядку, пока описание укладывается в 160 символов (без обрезки на полуслове)
+  const description = clampText([`${title}.`, work.client ? `${t("client")}: ${work.client}.` : "", place ? `${place}.` : "", t("done")]
+    .filter(Boolean)
+    .reduce((acc, part) => (!acc ? part : `${acc} ${part}`.length <= 160 ? `${acc} ${part}` : acc), ""));
+  return pageMetadata({
+    locale,
+    path: `/projects/${slug}`,
+    title: fullTitle.length <= 65 ? fullTitle : title,
+    description,
+    keywords: [title, location, work.client || (locale === "kz" ? "Қазақстандағы құрылыс" : "строительство Казахстан")].filter((keyword): keyword is string => Boolean(keyword)),
+    // JPG 1200×630 (scripts/generate-og-images.mjs): WhatsApp/Telegram/VK не везде показывают WebP
+    image: `/images/og/projects/${work.slug}.jpg`,
+    type: "article",
+  });
 }
 
 export default async function ProjectPage({ params }: Props) {

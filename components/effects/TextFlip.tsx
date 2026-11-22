@@ -26,6 +26,8 @@ type Props = {
   /** "view" — при появлении в экране; boolean — ручной запуск */
   play?: "view" | boolean;
   style?: CSSProperties;
+  /** текст для поисковиков и скринридеров, если он должен отличаться от видимого (H1 главной) */
+  srText?: string;
 };
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -43,6 +45,7 @@ export function TextFlip({
   ease = "cubic-bezier(0.34, 1.56, 0.64, 1)",
   play = "view",
   style,
+  srText,
 }: Props) {
   const ref = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
@@ -90,24 +93,20 @@ export function TextFlip({
         } as CSSProperties
       }
     >
-      {/* текст для скринридеров и поисковиков; анимированные части скрыты от них */}
-      <span className="sr-only">{text}</span>
+      {/* Текст заголовка в HTML ровно один раз — для поисковиков и скринридеров. */}
+      <span className="sr-only">{srText ?? text}</span>
+      {/* Анимированная копия рисуется через ::before из data-t (globals.css): в тексте документа её нет,
+          поэтому заголовок не дублируется («DEEVSDEEVS»), а визуально всё как раньше. */}
       {words.map((w, wi) => {
         if (!w) return null;
         if (/^\s+$/.test(w)) return " ";
         if (split === "words") {
-          return (
-            <span key={wi} aria-hidden className="awf-w awf-p" style={{ "--i": i++ } as CSSProperties}>
-              {w}
-            </span>
-          );
+          return <span key={wi} aria-hidden className="awf-w awf-p" data-t={w} style={{ "--i": i++ } as CSSProperties} />;
         }
         return (
           <span key={wi} aria-hidden className="awf-w">
             {Array.from(w).map((ch, ci) => (
-              <span key={ci} className="awf-p" style={{ "--i": i++ } as CSSProperties}>
-                {ch}
-              </span>
+              <span key={ci} className="awf-p" data-t={ch} style={{ "--i": i++ } as CSSProperties} />
             ))}
           </span>
         );

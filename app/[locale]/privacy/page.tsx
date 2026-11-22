@@ -11,10 +11,8 @@ type Props = { params: Promise<{ locale: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "privacyPage" });
-  return {
-    ...pageMetadata({ locale, path: "/privacy", title: t("title"), description: t("lead"), keywords: locale === "kz" ? ["Deevs құпиялылық саясаты", "дербес деректерді өңдеу"] : ["политика конфиденциальности Deevs", "обработка персональных данных"] }),
-    robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
-  };
+  // Закрыта от индексации: noindex, follow; без hreflang и вне sitemap.
+  return pageMetadata({ locale, path: "/privacy", title: `${t("title")} — DEEVS`, description: t("lead"), index: false });
 }
 
 export default async function PrivacyPage({ params }: Props) {

@@ -1,10 +1,19 @@
 /** Маска телефона Казахстана: хранение — 11 цифр «7XXXXXXXXXX», показ — «+7 (XXX) XXX-XX-XX». */
 
+/** Полный номер: 7 + 10 цифр. */
+export const isCompletePhone = (d: string) => /^7\d{10}$/.test(d);
+
+/** Цифры номера без кода страны с учётом форматов «8 707…», «+7 707…», «7 707…» и «707…». */
+const localPart = (raw: string) => {
+  const d = raw.replace(/\D/g, "");
+  if (d.length === 11 && /^[78]/.test(d)) return d.slice(1); // 8 707 123 45 67 / 7 707 123 45 67
+  if (d.length === 1 && /^[78]$/.test(d)) return ""; // начали с 8 или 7 — это код страны
+  return d.slice(0, 10); // 707 123 45 67 — номер без кода
+};
+
 export const digitsOf = (v: string) => {
-  let d = v.replace(/\D/g, "");
-  if (d.startsWith("8")) d = "7" + d.slice(1);
-  if (d && !d.startsWith("7")) d = "7" + d;
-  return d.slice(0, 11);
+  const local = localPart(v);
+  return v.replace(/\D/g, "") ? `7${local}` : "";
 };
 
 export const formatPhone = (d: string) => {
@@ -19,13 +28,19 @@ export const formatPhone = (d: string) => {
   return out;
 };
 
-/** Следующее значение по событию ввода с учётом удаления разделителей и «8 707…». */
+/** Следующее значение по событию ввода: набор, вставка, удаление разделителей, «8 707…». */
 export function nextPhone(prevDigits: string, inputValue: string) {
-  let next = inputValue.startsWith("+7")
-    ? ("7" + inputValue.slice(2).replace(/\D/g, "")).slice(0, 11)
-    : digitsOf(inputValue);
-  if (prevDigits.length <= 1 && next.startsWith("78")) next = ("7" + next.slice(2)).slice(0, 11);
+  let next: string;
+  if (inputValue.startsWith("+7")) {
+    let rest = inputValue.slice(2).replace(/\D/g, "");
+    if (prevDigits.length <= 1 && rest.startsWith("8")) rest = rest.slice(1); // «+7» + набрали 8 по привычке
+    if (rest.length === 11 && /^[78]/.test(rest)) rest = rest.slice(1); // вставили номер с кодом поверх «+7»
+    next = rest ? `7${rest.slice(0, 10)}` : "7";
+  } else {
+    next = digitsOf(inputValue); // поле очищено/выделено целиком и вставлен номер
+  }
   const prevShown = formatPhone(prevDigits);
+  // стёрли разделитель («)», «-», пробел) — стираем и цифру перед ним
   if (inputValue.length < prevShown.length && next === prevDigits) return prevDigits.slice(0, -1);
   return next;
 }

@@ -5,7 +5,7 @@ import { Panel } from "@/components/ui/Section";
 import { ContactLocationMap } from "@/components/contacts/ContactLocationMap";
 import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 import { site } from "@/config/site";
-import { pageMetadata } from "@/lib/seo";
+import { ogImagePath, pageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta.contacts" });
   const keywords = locale === "kz" ? ["Астанадағы құрылыс компаниясының байланыс деректері", "Қазақстан кәсіпорындарына арналған құрылыс", "ТОО Deevs телефоны"] : ["контакты строительной компании Астана", "строительная компания для предприятий Казахстан", "телефон ТОО Deevs"];
-  return pageMetadata({ locale, path: "/contacts", title: t("title"), description: t("description"), keywords });
+  return pageMetadata({ locale, path: "/contacts", title: t("title"), description: t("description"), keywords, image: ogImagePath(locale, "/contacts") });
 }
 
 export default async function ContactsPage({ params }: Props) {

@@ -2,11 +2,14 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "404 — ТОО Deevs",
-  robots: { index: false, follow: false, googleBot: { index: false, follow: false } },
+  title: "Страница не найдена — DEEVS",
+  robots: { index: false, follow: true, googleBot: { index: false, follow: true } },
 };
 
-/** Русская 404 для адресов вне локализованного маршрута. */
+/**
+ * Запасная 404 для адресов вне middleware (например, несуществующие файлы /something.php).
+ * Обычные страницы получают локализованную 404 из app/[locale]/page-404.
+ */
 export default function GlobalNotFound() {
   return (
     <html lang="ru">

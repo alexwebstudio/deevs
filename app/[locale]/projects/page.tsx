@@ -7,7 +7,7 @@ import { Reveal } from "@/components/effects/Reveal";
 import { LeadModalButton } from "@/components/providers/LeadModalProvider";
 import { localizedWorkLocation, localizedWorkTitle, works } from "@/data/works";
 import { Link } from "@/i18n/navigation";
-import { pageMetadata } from "@/lib/seo";
+import { ogImagePath, pageMetadata } from "@/lib/seo";
 import { site } from "@/config/site";
 import { localizedPath } from "@/i18n/routing";
 
@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "meta.projects" });
   const keywords = locale === "kz" ? ["Қазақстандағы құрылыс портфолиосы", "Астанадағы өнеркәсіптік нысандар", "ангар құрылысы жобалары", "модульдік жатақханалар"] : ["портфолио строительства Казахстан", "промышленные объекты Астана", "строительство ангаров проекты", "модульные общежития портфолио"];
-  return pageMetadata({ locale, path: "/projects", title: t("title"), description: t("description"), keywords });
+  return pageMetadata({ locale, path: "/projects", title: t("title"), description: t("description"), keywords, image: ogImagePath(locale, "/projects") });
 }
 
 export default async function ProjectsPage({ params }: Props) {

@@ -110,7 +110,8 @@ export function Hero() {
 
         <div data-logo className={styles.copy}>
           <h1 className={styles.logo}>
-            <TextFlip text={BRAND} play={introDone} delay={450} duration={1100} stagger={55} perspective={900} />
+            {/* визуально — только «DEEVS»; поисковикам и скринридерам — полный заголовок с ключевой фразой */}
+            <TextFlip text={BRAND} srText={t("h1")} play={introDone} delay={450} duration={1100} stagger={55} perspective={900} />
           </h1>
           <BlurIn as="p" play={introDone} delay={900} className={styles.subtitle}>
             {t("subtitle1")}

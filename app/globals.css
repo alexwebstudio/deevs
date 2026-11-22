@@ -146,6 +146,10 @@ html[data-loading] {
   transform-origin: 50% 100%;
   backface-visibility: hidden;
 }
+/* видимые буквы/слова — из data-t, чтобы текст заголовка не дублировался в HTML (см. TextFlip.tsx) */
+.awf-flip .awf-p[data-t]::before {
+  content: attr(data-t);
+}
 .awf-flip[data-armed] .awf-p {
   opacity: 0;
   transform: perspective(var(--awf-perspective)) rotateX(var(--awf-angle));

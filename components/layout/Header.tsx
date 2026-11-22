@@ -53,7 +53,7 @@ export function Header() {
         }`}
       >
         <Link href="/" aria-label={t("header.homeAria")} className="text-[15px] transition-opacity hover:opacity-80">
-          <Wordmark variant="white" className="[&_img]:w-[70px] min-[380px]:[&_img]:w-[84px] sm:[&_img]:w-[104px]" />
+          <Wordmark variant="white" priority className="[&_img]:w-[70px] min-[380px]:[&_img]:w-[84px] sm:[&_img]:w-[104px]" />
         </Link>
 
         <nav aria-label={t("header.mainMenu")} className="hidden xl:block">

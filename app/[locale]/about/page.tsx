@@ -4,7 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageShell } from "@/components/layout/PageShell";
 import { Panel, SectionHead } from "@/components/ui/Section";
 import { Reveal } from "@/components/effects/Reveal";
-import { pageMetadata } from "@/lib/seo";
+import { ogImagePath, pageMetadata } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const meta = await getTranslations({ locale, namespace: "meta.about" });
   const kw = locale === "kz" ? ["Deevs құрылыс компаниясы", "Қазақстандағы өнеркәсіптік құрылыс", "Астанадағы ангар құрылысы"] : ["строительная компания Deevs", "строительство объектов для бизнеса", "промышленная инфраструктура Казахстан"];
-  return pageMetadata({ locale, path: "/about", title: meta("title"), description: meta("description"), keywords: kw });
+  return pageMetadata({ locale, path: "/about", title: meta("title"), description: meta("description"), keywords: kw, image: ogImagePath(locale, "/about") });
 }
 
 export default async function AboutPage({ params }: Props) {

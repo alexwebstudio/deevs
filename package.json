@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "og:projects": "node scripts/generate-og-images.mjs",
+    "icons": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
